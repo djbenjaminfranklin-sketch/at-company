@@ -1,0 +1,29 @@
+# AT Company : site statique
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /index.html
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+# Anciennes adresses WordPress
+RedirectMatch 301 ^/autrse-methodes-economes/?$ /methodes-economes/
+RedirectMatch 301 ^/politique-de-confidentialite/?$ /rgpd/
+RedirectMatch 301 ^/form/?$ /contactez-nous/
+RedirectMatch 301 ^/(wp-admin|wp-login\.php|wp-content|feed|comments).*$ /
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/webp "access plus 1 year"
+ExpiresByType font/woff2 "access plus 1 year"
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
+</IfModule>
+AddType font/woff2 .woff2
+AddType image/webp .webp
